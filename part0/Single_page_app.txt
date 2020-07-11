@@ -1,0 +1,14 @@
+title loading a page containing js
+
+brower->server: HTTP GET https://fullstack-exampleapp.herokuapp.com/note over 
+server->brower:HTML-code
+brower->server:HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+server->brower:main.css
+brower->server:HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
+server->brower:main.js
+note over brower:browser starts executing js-code that requests JSON data from server
+brower->server:HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+server->brower:[{content:"HTML is easy":data:"2020-7-11"}....]
+note over brower:brower executes the event handler that renders notes to display
+
+note right of  server : made by chj
