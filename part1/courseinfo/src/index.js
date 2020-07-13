@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-const Part =(props)=>{
+const Part = (props) => {
   return (
     <div>
       <p>
@@ -9,34 +9,33 @@ const Part =(props)=>{
     </div>
   )
 }
-const Header = (props)=>{
-  return(
+const Header = (props) => {
+  return (
     <div>
       <p>{props.course}</p>
-      </div>
+    </div>
   )
-  }
-  const Content =(props) =>{
-    return(
-      <div>
-        <Part  part={props.parts[0].name} exercises={props.parts[0].exercises} />
-        <Part  part={props.parts[1].name} exercises={props.parts[1].exercises} />
-        <Part  part={props.parts[2].name} exercises={props.parts[2].exercises} />
-      </div>
-    )
-  }
-  const Total =(props)=>{
-    return(
-      <div>
-        <p>
-          {props.total}
-        </p>
-      </div>
-    )
-  }
-  
+}
+const Content = (props) => {
+  return (
+    <div>{
+      props.parts.map(part => <Part part={part.name} exercises={part.exercises} />)
+    }
+    </div>
+  )
+}
+const Total = (props) => {
+  return (
+    <div>
+      <p>
+        {props.total}
+      </p>
+    </div>
+  )
+}
+
 const App = (props) => {
-  
+
   const course = {
     name: 'Half Stack application development',
     parts: [
@@ -55,13 +54,15 @@ const App = (props) => {
     ]
   }
 
-
-const total = course.parts[0].exercises + course.parts[1].exercises+course.parts[2].exercises
-   return (
+  let total = 0;
+  course.parts.forEach(part => {
+    total += part.exercises
+});
+  return (
     <div>
-      <Header course = {course.name}  />
+      <Header course={course.name} />
       <Content parts={course.parts} />
-      <p>Number of exercises  <Total  total = {total}/> </p>
+      <p>Number of exercises  <Total total={total} /> </p>
     </div>
   )
 }
