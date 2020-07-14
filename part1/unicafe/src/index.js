@@ -8,7 +8,7 @@ const Button = (props) => {
     </button>
   )
 }
-const Display = (props) => {
+/*const Display = (props) => {
   if (props.counter === 0) {
     return (
       <div>
@@ -23,35 +23,49 @@ const Display = (props) => {
     )
   }
 }
-
+*/
 /*const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>
     {text}
   </button>
 )*/
 const Precent = (props) => {
-  if(props.total===0){
+  if (props.total === 0) {
     return 0
   }
   let precent = Math.round(props.good / props.total * 100) + '%'
-  if (precent === 0) {
-    return (
-      <div>
-        No feedback given
-      </div>
-    )
-  }
+
   return (precent)
 }
 const Average = (props) => {
-  if(props.total ===0) return 0
+  if (props.total === 0) return 0
   let average = (props.good - props.bad) / props.total
-  
+
   return (
     average
   )
 }
+const Statistics = (props) => {
+  if (props.total === 0) return (
+    <div>
+      <p>No feedback given</p>
+    </div>)
+  return (
+    <p>
+      {props.text}   {props.value}
 
+      {/* good  <Display counter={props.good} /> */}
+      {/* neutral <Display counter={props.neutral} /> */}
+      {/* bad <Display counter={props.bad} /> */}
+      {/* all <Display counter={props.total} /> */}
+      {/* average */}
+      {/* <p> <Average  good={props.good} bad={props.bad} total={props.total} /></p> */}
+      {/* positive */}
+      {/* <p><Precent good={props.good} total={props.total} /></p> */}
+    </p>
+  )
+
+}
 const App = () => {
   // save clicks of each button to own state
   const [good, setGood] = useState(0)
@@ -67,16 +81,17 @@ const App = () => {
       <Button handleClick={() => setNeutral(neutral + 1)} text='neutral' />
       <Button handleClick={() => setBad(bad + 1)} text='bad' />
       <h2>statistics</h2>
-      <p>
-      good  <Display counter={good} />
-      neutral <Display counter={neutral} />
-      bad <Display counter={bad} />
-      all <Display counter={total} />
-      average
-      <p> <Average  good={good} bad={bad} total={total} /></p>
-      positive
-       <p><Precent good={good} total={total} /></p>
-      </p>
+      <Statistics total={total} />
+      {total !== 0 && <table>
+    
+        <Statistics text={'good'} value={good} />
+        <Statistics text={'neutral'} value={neutral} />
+        <Statistics text={'bad'} value={bad} />
+        <Statistics text={'all'} value={total} />
+        <Statistics text={'average'} value={<Average good={good} bad={bad} total={total} />} />
+        <Statistics text={'precent'} value={<Precent good={good} total={total} />} />
+      </table>}
+      {/* <Statistics   total = {total} good = {good} neutral = {neutral} bad = {bad} /> */}
     </div>
   )
 }
