@@ -32,7 +32,7 @@ const App = () => {
 ReactDOM.render(<App />, document.getElementById('root'))
 */
 
-const Display= ({counter}) => <div>{counter} </div>
+/*const Display= ({counter}) => <div>{counter} </div>
    
 
 const Button = ({handleClick,text}) =>{
@@ -52,9 +52,7 @@ const App = () => {
   const setToZero = () => setCounter(0)
 
 
- /* const handleClick = () =>{
-    console.log('click')
-  }*/
+ 
   return (
     <div>
       <Display counter = {counter} />
@@ -73,6 +71,26 @@ const App = () => {
   )
 }
 
+
+ReactDOM.render(
+  <App />, 
+  document.getElementById('root')
+)
+*/
+
+
+const App = () => {
+  const [ counter, setCounter ] = useState(0)
+
+  setTimeout(
+    () => setCounter(counter + 1),
+    1000
+  )
+
+  return (
+    <div>{counter}</div>
+  )
+}
 
 ReactDOM.render(
   <App />, 
