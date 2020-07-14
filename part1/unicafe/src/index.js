@@ -30,6 +30,9 @@ const Display = (props) => {
   </button>
 )*/
 const Precent = (props) => {
+  if(props.total===0){
+    return 0
+  }
   let precent = Math.round(props.good / props.total * 100) + '%'
   if (precent === 0) {
     return (
@@ -41,12 +44,14 @@ const Precent = (props) => {
   return (precent)
 }
 const Average = (props) => {
+  if(props.total ===0) return 0
   let average = (props.good - props.bad) / props.total
   
   return (
     average
   )
 }
+
 const App = () => {
   // save clicks of each button to own state
   const [good, setGood] = useState(0)
