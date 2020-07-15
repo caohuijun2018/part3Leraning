@@ -95,9 +95,14 @@ const App = () => {
               <td>good</td>
               <td> <Statistics text={'good'} value={good} /></td>
             </tr>
+            
+            <tr>
+              <td>neutral</td>
+              <td><Statistics text ={'neutral'} value={neutral}/></td>
+            </tr>
             <tr>
               <td>bad</td>
-              <td><tr><Statistics text={'neutral'} value={neutral} /></tr></td>
+              <td><Statistics text={'bad'} value={bad} /></td>
             </tr>
             <tr>
               <td>all</td>
