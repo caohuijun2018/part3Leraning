@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 const Button = (props) => {
   return (
-    <button onClick = {props.handleClick}>
+    <button onClick={props.handleClick}>
       {props.text}
     </button>
   )
@@ -14,15 +14,41 @@ const Button = (props) => {
     </div>
   )
 }*/
-const App = (props) => {
-  const [selected, setSelected] = useState(0)
-  let number = Math.random() *5
-  const increaseByOne = () =>  setSelected(selected +number  )
+/*const Most = (props) => {
   return (
     <div>
-      
-      <Button handleClick = {increaseByOne} text= 'next anecdotes'/>
+      {props.maxNumber}
+    </div>
+  )
+}*/
+const App = (props) => {
+  const [selected, setSelected] = useState(0)
+
+  let number = Math.floor(Math.random() * 6)
+  const [points, setPoints] = useState({ 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 })
+
+
+  const vote = () => {
+    const copy = { ...points }
+    copy[number] += 1
+    setPoints(copy)
+
+  }
+  const increaseByOne = () => setSelected(number)
+  let maxNumber = Math.max.apply(null,Object.values(points))
+  const maxKey = Object.keys(points).find(key => points[key] === maxNumber)
+  console.log(Object.values(points))
+  return (
+    <div>
+      <h1> Anecdote of the day</h1>
+      <Button handleClick={increaseByOne} text='next anecdotes' />
+      <Button handleClick={vote} text='vote' />
       {props.anecdotes[selected]}
+      {<p> has {points[number]} votes</p>}
+      <h1>Anecdote with the most</h1>
+      {/* <Most maxNumber={maxNumber} /> */}
+      {props.anecdotes[maxKey]}
+      <p> has {points[maxKey]} votes</p>
     </div>
   )
 }

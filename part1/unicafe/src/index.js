@@ -66,6 +66,11 @@ const Statistics = (props) => {
   )
 
 }
+/*const CreatTablr = (props) => {
+  let tableData = '<tr>'
+
+
+}*/
 const App = () => {
   // save clicks of each button to own state
   const [good, setGood] = useState(0)
@@ -82,14 +87,17 @@ const App = () => {
       <Button handleClick={() => setBad(bad + 1)} text='bad' />
       <h2>statistics</h2>
       <Statistics total={total} />
-      {total !== 0 && <table>
-    
-        <Statistics text={'good'} value={good} />
-        <Statistics text={'neutral'} value={neutral} />
-        <Statistics text={'bad'} value={bad} />
-        <Statistics text={'all'} value={total} />
-        <Statistics text={'average'} value={<Average good={good} bad={bad} total={total} />} />
-        <Statistics text={'precent'} value={<Precent good={good} total={total} />} />
+      {total !== 0 && 
+      <table>
+        <tbody>
+      
+        <tr> <Statistics text={'good'} value={good} /></tr>
+        <tr><Statistics text={'neutral'} value={neutral} /></tr>
+        <tr> <Statistics text={'bad'} value={bad} /></tr>
+        <tr><Statistics text={'all'} value={total} /></tr>
+        <tr><Statistics text={'average'} value={<Average good={good} bad={bad} total={total} />} /></tr>
+        <tr><Statistics text={'precent'} value={<Precent good={good} total={total} />} /></tr>
+        </tbody>
       </table>}
       {/* <Statistics   total = {total} good = {good} neutral = {neutral} bad = {bad} /> */}
     </div>
