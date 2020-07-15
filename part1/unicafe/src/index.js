@@ -52,7 +52,8 @@ const Statistics = (props) => {
     </div>)
   return (
     <p>
-      {props.text}   {props.value}
+      {/* {props.text}    */}
+      {props.value}
 
       {/* good  <Display counter={props.good} /> */}
       {/* neutral <Display counter={props.neutral} /> */}
@@ -87,18 +88,31 @@ const App = () => {
       <Button handleClick={() => setBad(bad + 1)} text='bad' />
       <h2>statistics</h2>
       <Statistics total={total} />
-      {total !== 0 && 
-      <table>
-        <tbody>
-      
-        <tr> <Statistics text={'good'} value={good} /></tr>
-        <tr><Statistics text={'neutral'} value={neutral} /></tr>
-        <tr> <Statistics text={'bad'} value={bad} /></tr>
-        <tr><Statistics text={'all'} value={total} /></tr>
-        <tr><Statistics text={'average'} value={<Average good={good} bad={bad} total={total} />} /></tr>
-        <tr><Statistics text={'precent'} value={<Precent good={good} total={total} />} /></tr>
-        </tbody>
-      </table>}
+      {total !== 0 &&
+        <table>
+          <tbody>
+            <tr>
+              <td>good</td>
+              <td> <Statistics text={'good'} value={good} /></td>
+            </tr>
+            <tr>
+              <td>bad</td>
+              <td><tr><Statistics text={'neutral'} value={neutral} /></tr></td>
+            </tr>
+            <tr>
+              <td>all</td>
+              <td> <tr><Statistics text={'all'} value={total} /></tr></td>
+            </tr>
+            <tr>
+              <td> average</td>
+              <td><Statistics text={'average'} value={<Average good={good} bad={bad} total={total} />} /></td>
+            </tr>
+            <tr>
+              <td>precent</td>
+              <td><Statistics text={'precent'} value={<Precent good={good} total={total} />} /></td>
+            </tr>
+          </tbody>
+        </table>}
       {/* <Statistics   total = {total} good = {good} neutral = {neutral} bad = {bad} /> */}
     </div>
   )
