@@ -1,17 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 //import logo from './logo.svg';
 import './App.css';
-import _ from 'lodash'
+import Axios from 'axios';
+//import _ from 'lodash'
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', id: 1, phone: '1561234567' },
-    { name: 'Ada Lovelace', id: 2, phone: '39-44-5323523' },
-    { name: 'Dan Abramov', id: 3, phone: '12-43-234345' },
-    { name: 'Mary Poppendieck', id: 4, phone: '39-23-6423122' }
+    // { name: 'Arto Hellas', id: 1, phone: '1561234567' },
+    // { name: 'Ada Lovelace', id: 2, phone: '39-44-5323523' },
+    // { name: 'Dan Abramov', id: 3, phone: '12-43-234345' },
+    // { name: 'Mary Poppendieck', id: 4, phone: '39-23-6423122' }
   ])
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
   const [filterName, setFNewilterName] = useState('')
+  useEffect( () => {
+    Axios.get('http://localhost:3001/persons').then(response => {
+      console.log(response.data)
+      setNewName(response.data)
+    })
+  },[])
+
   const add = (event) => {
     event.preventDefault()
     const Object = {
