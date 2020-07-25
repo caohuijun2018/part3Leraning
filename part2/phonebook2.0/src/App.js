@@ -4,11 +4,14 @@ import './App.css';
 //import _ from 'lodash'
 //import axios from 'axios'
 import phoneService from './services/phonebook'
+import axios from 'axios';
+//import Persons from './components/Persons'
+
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
-  const [filterName, setFNewilterName] = useState('')
+  const [filterName, setNewFilterName] = useState('')
   useEffect(() => {
 
     phoneService
@@ -27,12 +30,17 @@ const App = () => {
 
 
   const add = (event) => {
+    console.log("add")
     event.preventDefault()
     const Object = {
       name: newName,
-      id: persons.length + 1,
       number: newPhone
     }
+    if (newName === '' || newPhone === '') {
+      console.log("newName和newPhone不能为空")
+      return
+    }
+
     let flag = 0;
     persons.forEach(props => {
       if (props.name === newName) {
@@ -42,16 +50,18 @@ const App = () => {
     })
     if (flag === 0) {
       phoneService
-        .create()
+        .create(Object)
         .then(inputNewPhone => {
-          setPersons(persons.concat(inputNewPhone))
+          console.log(inputNewPhone)
+          phoneService
+            .getAll()
+            .then(persons => {
+              setPersons(persons)
+            })
           setNewName('')
           setNewPhone('')
         })
-      setPersons(persons.concat(Object))
-      setNewName('')
-      setNewPhone('')
-      setFNewilterName('')
+
       // axios
       //   .post('http://localhost:3001/persons',Object)
       //   .then(response => {
@@ -67,12 +77,8 @@ const App = () => {
       // setNewName('')
       // setNewPhone('')
     }
-    phoneService
-      .getAll()
-      .then(inputFilerPhone => {
-        setFNewilterName(filterName.concat(inputFilerPhone))
-      })
-      
+
+
     // axios
     //   .get('http://localhost:3001/persons')
     //   .then(response => {
@@ -83,6 +89,24 @@ const App = () => {
 
 
   }
+  const clickDelete = (note) => {
+    console.log(note.id)
+    let flag = window.confirm(`Delete ${note.name}`)
+    if (flag === true) {
+      axios
+        .delete(`http://localhost:3001/persons/${note.id}`)
+        .then( () => {
+          phoneService
+            .getAll()
+            .then(persons => {
+              setPersons(persons)
+            })
+        })
+    }
+  }
+
+
+
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -91,8 +115,25 @@ const App = () => {
     setNewPhone(event.target.value)
   }
   const handleFilterName = (event) => {
-    setFNewilterName(event.target.value)
+    setNewFilterName(event.target.value)
   }
+
+
+  // const clickDelete = (persons) => {
+
+  //   console.log(persons.name)
+
+  //   let flag = confirm(`Delete  ${persons.name}`)
+  //   if(flag === true){
+  //     axios 
+  //      .delelte('http://localhost:3001/persons', {data: {id : persons.id}})
+
+  //   }
+  // }
+
+
+
+
   return (
     <div>
       <div>
@@ -120,16 +161,16 @@ const App = () => {
         <div>
           <button type="submit">add</button>
         </div>
-
-        <h2>Numbers</h2>
-
-        {persons && persons.filter(note => note.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1).map(note => <p key={note.id}>  {note.name} {note.number}</p>)}
-
-
       </form>
-    </div>
+      <h2>Numbers</h2>
+
+      {persons && persons.filter(note => note.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1)
+        .map(note => <p key={note.id}>  {note.name} {note.numbe}<button onClick={() => clickDelete(note)} >delete</button> </p>)}
+
+  </div>
 
   )
 }
 
 export default App
+
