@@ -39,36 +39,36 @@ const App = () => {
 
 
   const add = (event) => {
-    console.log("add")
-    event.preventDefault()
-    const Object = {
+    //event.preventDefault()
+    const Object = {                       //创建一个新的object，存储输入的名字和电话
       name: newName,
       number: newPhone
     }
     if (newName === '' || newPhone === '') {
-      console.log("newName和newPhone不能为空")
+      console.log("newName和newPhone不能为空")  //当newname或者newphone为空时，退出函数
       return
     }
-    let target = 0;
-    persons.forEach(props => {
-      if (props.name === newName && props.number !== newPhone) {
-        replace(props)
+    let target = 0;                          //作为是否为更新内容的标志
+    persons.forEach(person => {
+      if (person.name === newName && person.number !== newPhone) {
+        replace({ ...Object, id: person.id })    //...object 创建一个新对象，是具有Object对象属性的副本。id： 将id赋值为person的id
         target = 1;
       }
     })
-    if (target === 0) {let flag = 0;
+    if (target === 0) {
+      let flag = 0;                        //作为输入内容是否重复的标志
       persons.forEach(props => {
-        if (props.name === newName && props.number === newPhone) {
+        if (props.name === newName && props.number === newPhone) { //当输入的内容重复时，发出提示
           window.alert(`${newName} is already added to phonebook`)
           flag = 1;
         }
       })
-      if (flag === 0) {
+      if (flag === 0) { //输入内容不重复时
         phoneService
-          .create(Object)
+          .create(Object) 
           .then(inputNewPhone => {
             console.log(inputNewPhone)
-            service()
+            service()  //获取后端数据库的数据
             // phoneService
             //   .getAll()
             //   .then(persons => {
@@ -77,7 +77,7 @@ const App = () => {
             setNewName('')
             setNewPhone('')
           })
-  
+
         // axios
         //   .post('http://localhost:3001/persons',Object)
         //   .then(response => {
@@ -86,15 +86,15 @@ const App = () => {
         //     setNewName('')
         //     setNewPhone('')
         //   })
-  
-  
+
+
         //persons.debounce(setPersons,3000)
         // setPersons(persons.concat(Object))
         // setNewName('')
         // setNewPhone('')
       }
-  }
-    
+    }
+
 
     // axios
     //   .get('http://localhost:3001/persons')
@@ -136,10 +136,10 @@ const App = () => {
     if (flag === true) {
       phoneService
         .update(note.id, note)
-        .then( () => {persons.map(note => note.number = newPhone)
+        .then(() => {
           service()
-         } )
-       
+        })
+
     }
   }
 
