@@ -4,7 +4,9 @@ import './App.css';
 //import _ from 'lodash'
 //import axios from 'axios'
 import phoneService from './services/phonebook'
-import axios from 'axios';
+//
+
+//import axios from 'axios';
 //import Persons from './components/Persons'
 
 const App = () => {
@@ -12,13 +14,21 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
   const [filterName, setNewFilterName] = useState('')
-  useEffect(() => {
-
+  const service = () => {
     phoneService
       .getAll()
-      .then(phoneIn => {
-        setPersons(phoneIn)
+      .then(response => {
+        setPersons(response)
       })
+  }
+
+  useEffect(() => {
+    service()
+    // phoneService
+    //   .getAll()
+    //   .then(phoneIn => {
+    //     setPersons(phoneIn)
+    //   })
     // axios
     //   .get('http://localhost:3001/persons')
     //   .then(response => {
@@ -26,7 +36,6 @@ const App = () => {
     //     setPersons(response.data)
     //   })
   }, [])
-
 
 
   const add = (event) => {
@@ -40,44 +49,52 @@ const App = () => {
       console.log("newName和newPhone不能为空")
       return
     }
-
-    let flag = 0;
+    let target = 0;
     persons.forEach(props => {
-      if (props.name === newName) {
-        window.alert(`${newName} is already added to phonebook`)
-        flag = 1;
+      if (props.name === newName && props.number !== newPhone) {
+        replace(props)
+        target = 1;
       }
     })
-    if (flag === 0) {
-      phoneService
-        .create(Object)
-        .then(inputNewPhone => {
-          console.log(inputNewPhone)
-          phoneService
-            .getAll()
-            .then(persons => {
-              setPersons(persons)
-            })
-          setNewName('')
-          setNewPhone('')
-        })
-
-      // axios
-      //   .post('http://localhost:3001/persons',Object)
-      //   .then(response => {
-      //     console.log(Object)
-      //     setPersons(persons.concat(response.data))
-      //     setNewName('')
-      //     setNewPhone('')
-      //   })
-
-
-      //persons.debounce(setPersons,3000)
-      // setPersons(persons.concat(Object))
-      // setNewName('')
-      // setNewPhone('')
-    }
-
+    if (target === 0) {let flag = 0;
+      persons.forEach(props => {
+        if (props.name === newName && props.number === newPhone) {
+          window.alert(`${newName} is already added to phonebook`)
+          flag = 1;
+        }
+      })
+      if (flag === 0) {
+        phoneService
+          .create(Object)
+          .then(inputNewPhone => {
+            console.log(inputNewPhone)
+            service()
+            // phoneService
+            //   .getAll()
+            //   .then(persons => {
+            //     setPersons(persons)
+            //   })
+            setNewName('')
+            setNewPhone('')
+          })
+  
+        // axios
+        //   .post('http://localhost:3001/persons',Object)
+        //   .then(response => {
+        //     console.log(Object)
+        //     setPersons(persons.concat(response.data))
+        //     setNewName('')
+        //     setNewPhone('')
+        //   })
+  
+  
+        //persons.debounce(setPersons,3000)
+        // setPersons(persons.concat(Object))
+        // setNewName('')
+        // setNewPhone('')
+      }
+  }
+    
 
     // axios
     //   .get('http://localhost:3001/persons')
@@ -93,18 +110,38 @@ const App = () => {
     console.log(note.id)
     let flag = window.confirm(`Delete ${note.name}`)
     if (flag === true) {
-      axios
-        .delete(`http://localhost:3001/persons/${note.id}`)
-        .then( () => {
-          phoneService
-            .getAll()
-            .then(persons => {
-              setPersons(persons)
-            })
+      phoneService
+        .deleteId(note.id)
+        .then(() => {
+          service()
+          // phoneService
+          //   .getAll()
+          //   .then(persons => {
+          //     setPersons(persons)
+          //   })
         })
+      // axios
+      //   .delete(`http://localhost:3001/persons/${note.id}`)
+      //   .then( () => {
+      //     phoneService
+      //       .getAll()
+      //       .then(persons => {
+      //         setPersons(persons)
+      //       })
+      //})
     }
   }
-
+  const replace = (note) => {
+    let flag = window.confirm(`${note.name} is already added to phonebook, repalce the old number with a new one?`)
+    if (flag === true) {
+      phoneService
+        .update(note.id, note)
+        .then( () => {persons.map(note => note.number = newPhone)
+          service()
+         } )
+       
+    }
+  }
 
 
 
@@ -130,9 +167,6 @@ const App = () => {
 
   //   }
   // }
-
-
-
 
   return (
     <div>
@@ -165,9 +199,9 @@ const App = () => {
       <h2>Numbers</h2>
 
       {persons && persons.filter(note => note.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1)
-        .map(note => <p key={note.id}>  {note.name} {note.numbe}<button onClick={() => clickDelete(note)} >delete</button> </p>)}
+        .map(note => <p key={note.id}>  {note.name} {note.number}<button onClick={() => clickDelete(note)} >delete</button> </p>)}
 
-  </div>
+    </div>
 
   )
 }

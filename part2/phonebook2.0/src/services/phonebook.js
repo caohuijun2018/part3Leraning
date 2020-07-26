@@ -13,12 +13,19 @@ const create = newObject => {
     
 }
 
-// const fitler = (id, newObject) => {
-//   return axios.put(`${baseUrl}/${id}`, newObject)
-// }
+
+const deleteId = (id) => {
+    return axios.delete(`${baseUrl}/${id}`)
+   // return request.then(response => response.data)
+}
+const update = (id,newObject) => {
+    return axios.put(`${baseUrl}/${id}`,newObject)
+}
 
 export default {
     getAll: getAll,
     create: create,
+    deleteId: deleteId,
+    update: update
     //update: update 
 }
