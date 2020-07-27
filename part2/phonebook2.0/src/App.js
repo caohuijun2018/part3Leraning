@@ -14,6 +14,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
   const [filterName, setNewFilterName] = useState('')
+  const [sucessfulMessage, setSucessfluMesssage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
   const service = () => {
     phoneService
       .getAll()
@@ -36,10 +38,31 @@ const App = () => {
     //     setPersons(response.data)
     //   })
   }, [])
+  const Notification = ({ message }) => {
+    if (message === null) {
+      return null
+    }
 
-
+    return (
+      <div className='add'>
+        {message}
+      </div>
+    )
+  }
+  const ErrorFication = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+    return (
+      <div className='error'>
+        {message}
+      </div>
+    )
+  }
   const add = (event) => {
     //event.preventDefault()
+    console.log(add)
+
     const Object = {                       //创建一个新的object，存储输入的名字和电话
       name: newName,
       number: newPhone
@@ -48,52 +71,68 @@ const App = () => {
       console.log("newName和newPhone不能为空")  //当newname或者newphone为空时，退出函数
       return
     }
-    let target = 0;                          //作为是否为更新内容的标志
-    persons.forEach(person => {
-      if (person.name === newName && person.number !== newPhone) {
-        replace({ ...Object, id: person.id })    //...object 创建一个新对象，是具有Object对象属性的副本。id： 将id赋值为person的id
-        target = 1;
-      }
+    const person2 = persons.find(person => {
+      return person.name === newName && person.number === newPhone
     })
-    if (target === 0) {
-      let flag = 0;                        //作为输入内容是否重复的标志
-      persons.forEach(props => {
-        if (props.name === newName && props.number === newPhone) { //当输入的内容重复时，发出提示
-          window.alert(`${newName} is already added to phonebook`)
-          flag = 1;
-        }
-      })
-      if (flag === 0) { //输入内容不重复时
-        phoneService
-          .create(Object) 
-          .then(inputNewPhone => {
-            console.log(inputNewPhone)
-            service()  //获取后端数据库的数据
-            // phoneService
-            //   .getAll()
-            //   .then(persons => {
-            //     setPersons(persons)
-            //   })
-            setNewName('')
-            setNewPhone('')
-          })
-
-        // axios
-        //   .post('http://localhost:3001/persons',Object)
-        //   .then(response => {
-        //     console.log(Object)
-        //     setPersons(persons.concat(response.data))
-        //     setNewName('')
-        //     setNewPhone('')
-        //   })
-
-
-        //persons.debounce(setPersons,3000)
-        // setPersons(persons.concat(Object))
-        // setNewName('')
-        // setNewPhone('')
-      }
+    if (person2) {
+      setErrorMessage(
+        `${newName} is already added to phonebook`
+      )
+      window.setTimeout( () => {
+        setErrorMessage('')
+      },5000)
+      return 
+      // window.alert(`${newName} is already added to phonebook`)
+      // return
     }
+    const person = persons.find(person => {
+      return person.name === newName && person.number !== newPhone
+    })                        //作为是否为更新内容的标志
+    if (person) {
+      replace({ ...Object, id: person.id })
+      return
+    }
+    console.log(Object)
+    //输入内容不重复时
+
+    phoneService
+      .create(Object)
+      .then(inputNewPhone => {
+        console.log(inputNewPhone)
+        service()  //获取后端数据库的数据
+        // phoneService
+        //   .getAll()
+        //   .then(persons => {
+        //     setPersons(persons)
+        //   })
+        setSucessfluMesssage(
+          `Added '${newName}' `
+        )
+        window.setTimeout(() => {
+          setSucessfluMesssage('')
+        }, 5000);
+        setNewName('')
+        setNewPhone('')
+
+
+
+      })
+
+    // axios
+    //   .post('http://localhost:3001/persons',Object)
+    //   .then(response => {
+    //     console.log(Object)
+    //     setPersons(persons.concat(response.data))
+    //     setNewName('')
+    //     setNewPhone('')
+    //   })
+
+
+    //persons.debounce(setPersons,3000)
+    // setPersons(persons.concat(Object))
+    // setNewName('')
+    // setNewPhone('')
+
 
 
     // axios
@@ -200,6 +239,8 @@ const App = () => {
 
       {persons && persons.filter(note => note.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1)
         .map(note => <p key={note.id}>  {note.name} {note.number}<button onClick={() => clickDelete(note)} >delete</button> </p>)}
+      <Notification message={sucessfulMessage} />
+      <ErrorFication message = {errorMessage}/>
 
     </div>
 
