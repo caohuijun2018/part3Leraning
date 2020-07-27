@@ -39,7 +39,7 @@ const App = () => {
     //   })
   }, [])
   const Notification = ({ message }) => {
-    if (message === null) {
+    if (message === '') {
       return null
     }
 
@@ -50,7 +50,7 @@ const App = () => {
     )
   }
   const ErrorFication = ({ message }) => {
-    if (message === null) {
+    if (message === '') {
       return null
     }
     return (
@@ -60,7 +60,7 @@ const App = () => {
     )
   }
   const add = (event) => {
-    //event.preventDefault()
+    event.preventDefault()
     console.log(add)
 
     const Object = {                       //创建一个新的object，存储输入的名字和电话
