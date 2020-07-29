@@ -4,6 +4,8 @@ const express = require('express')
 const { response, request } = require('express')
 const app = express()
 const morgan = express('morgan')
+const cors = require('cors')
+app.use(cors())
 app.use(express.json())
 
 
