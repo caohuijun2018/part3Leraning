@@ -4,6 +4,16 @@ const express = require('express')
 const { response, request } = require('express')
 const app = express()
 const morgan = express('morgan')
+const Person = require('./models/person.js')
+
+
+
+
+
+
+//const Person = mongoose.model('Person', personSchema)
+
+
 const cors = require('cors')
 app.use(cors())
 app.use(express.json())
@@ -31,11 +41,22 @@ let persons = [
         id: 4
     }
 ]
-
-
-app.get('/api/persons', (requese, response) => {
-    response.json(persons)
+app.get('/api/persons',(request,response) => {
+    //console.log(Person.find( person => person.id === 1))
+    Person.find({}).then( persons => {
+        response.json(persons)
+    })
 })
+
+app.get('/api/notes', (request, response) => {
+    Person.find({}).then(persons => {
+      response.json(persons)
+    })
+  })
+  
+// app.get('/api/persons', (requese, response) => {
+//     response.json(persons)
+// })
 app.get('/info', (request, response) => {
     let numberPersons = persons.length;
     let time = new Date()
@@ -44,6 +65,8 @@ app.get('/info', (request, response) => {
     <p>the time is ${time}</p>`
     )
 })
+
+
 app.get('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     const person = persons.find(person => person.id === id)

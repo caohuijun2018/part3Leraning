@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "../part2/part2.c"
+		},
+		{
+			"path": "../part2"
+		},
+		{
+			"path": "../part3/part3.1"
+		},
+		{
+			"path": "../part2/phonebook2.0"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {}
+}

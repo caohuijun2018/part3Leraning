@@ -1,10 +1,29 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const Note = require('./models/note')
+
 app.use(express.static('build'))
 
 app.use(cors())
 app.use(express.json())
+//const mongoose = require('mongoose')
+//const { response } = require('express')
+const mongoose = require('mongoose')
+
+// DO NOT SAVE YOUR PASSWORD TO GITHUB!!
+const url =
+  'mongodb://localhost:27017/test'
+
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  date: Date,
+  important: Boolean,
+})
+ Note = mongoose.model('Note', noteSchema)
+
 
 let notes = [
   {
@@ -31,9 +50,24 @@ app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
 })
 
-app.get('/api/notes', (req, res) => {
-  res.json(notes)
+noteSchema.set('toJSON',{
+  transform:(document,returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject._v
+  }
 })
+
+
+app.get('/api/notes', (request, response) => {
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
+})
+
+// app.get('/api/notes', (req, res) => {
+//   res.json(notes)
+// })
 
 const generateId = () => {
   const maxId = notes.length > 0

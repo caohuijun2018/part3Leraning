@@ -65,14 +65,14 @@ const App = () => {
 
     const Object = {                       //创建一个新的object，存储输入的名字和电话
       name: newName,
-      number: newPhone
+      phone: newPhone
     }
     if (newName === '' || newPhone === '') {
       console.log("newName和newPhone不能为空")  //当newname或者newphone为空时，退出函数
       return
     }
     const person2 = persons.find(person => {
-      return person.name === newName && person.number === newPhone
+      return person.name === newName && person.phone === newPhone
     })
     if (person2) {
       setErrorMessage(
@@ -86,7 +86,7 @@ const App = () => {
       // return
     }
     const person = persons.find(person => {
-      return person.name === newName && person.number !== newPhone
+      return person.name === newName && person.phone !== newPhone
     })                        //作为是否为更新内容的标志
     if (person) {
       replace({ ...Object, id: person.id })
@@ -238,7 +238,7 @@ const App = () => {
       <h2>Numbers</h2>
 
       {persons && persons.filter(note => note.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1)
-        .map(note => <p key={note.id}>  {note.name} {note.number}<button onClick={() => clickDelete(note)} >delete</button> </p>)}
+        .map(note => <p key={note.id}>  {note.name} {note.phone}<button onClick={() => clickDelete(note)} >delete</button> </p>)}
       <Notification message={sucessfulMessage} />
       <ErrorFication message = {errorMessage}/>
 

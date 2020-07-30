@@ -26,29 +26,24 @@ const person = new Person({
     name: name,
     phone: phone
 })
+// const person2 = new Person({
+//     name: name,
+//     phone: phone
+// })
 person.save().then(result => {
-    console.log('person saved!')
     Person.find({}).then(result => {
-        mongoose.connection.close()
         result.forEach(person => {
-            console.log(person)
+          console.log(person)
+          mongoose.connection.close()
+        
         })
-    })
+        console.log('person saved!')
+        
+    
+    
+})
 })
 
-
-// Person.find({}).then(result1 => {
-//     person.save().then(result => {
-//         console.log('person saved!')
-        
-//         //mongoose.connection.close()
-//       })
     
-    
-    //mongoose.connection.close()
-//})
+  
 
-// person.save().then(result => {
-//   console.log('person saved!')
-//   mongoose.connection.close()
-// })
