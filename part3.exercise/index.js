@@ -1,10 +1,12 @@
-const http = require('http')
 
 const express = require('express')
-const { response, request } = require('express')
 const app = express()
-const morgan = express('morgan')
 const Person = require('./models/person.js')
+var mongoose = require('mongoose')
+var uniqueValidator = require('mongoose-unique-validator')
+
+var mySchema = mongoose.Schema(/* put your schema definition here */)
+mySchema.plugin(uniqueValidator)
 
 
 
@@ -13,8 +15,6 @@ const Person = require('./models/person.js')
 
 
 const cors = require('cors')
-const e = require('express')
-const { update } = require('./models/person.js')
 app.use(cors())
 app.use(express.json())
 
@@ -48,38 +48,37 @@ app.use(express.json())
 //     })
 // })
 
-app.get('/api/persons', (request, response) => { //从数据库获取初始数据
-    Person.find({}).then(persons => {
-        response.json(persons)
-    })
+app.get('/api/persons', (_request, response) => { //从数据库获取初始数据
+  Person.find({}).then(persons => {
+    response.json(persons)
+  })
 })
 
 
-app.get('/info', (request, response) => {
-    let numberPersons = Person.length;
-
-    let time = new Date()
-    response.send(`<p>Phonebook has info to ${numberPersons} people</p>
+app.get('/info', (_request, response) => {
+  let numberPersons = Person.length
+  let time = new Date()
+  response.send(`<p>Phonebook has info to ${numberPersons} people</p>
 
      <p>the time is ${time}</p>`
-    )
-    //response.send(`<p> the time is ${time}</p>`)
+  )
+  //response.send(`<p> the time is ${time}</p>`)
 })
 
 app.get('/api/persons/:id', (request, response, next) => { //实现分别取得每个id的内容
-    Person.findById(request.params.id)
-        .then(person => {
-            if (person) {
-                response.json(person)
-            } else {
-                response.status(404).end()
-            }
-        })
-        .catch(error => {
-            console.log(error)
-            next(error)
-            //response.status(400).send({error: 'id missing'})
-        })
+  Person.findById(request.params.id)
+    .then(person => {
+      if (person) {
+        response.json(person)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => {
+      console.log(error)
+      next(error)
+    //response.status(400).send({error: 'id missing'})
+    })
 })
 // app.get('/api/persons/:id', (request, response) => {
 //     const id = Number(request.params.id)
@@ -106,49 +105,62 @@ app.get('/api/persons/:id', (request, response, next) => { //实现分别取得�
 
 
 app.post('/api/persons', (request, response, next) => { //添加新的person
-    const body = request.body
-    console.log('body:', body)
-    if (body.name && body.phone === null) {
-        return response.status(400).json({ error: 'content missing' })
-    }
-
-    const person = new Person({
-        name: body.name,
-        phone: body.phone,
-        id: Math.floor(Math.random() * 1000)
-    })
-    person.save().then(savedPerson => {
-        response.json(savedPerson)
-    })
+  const body = request.body
+  console.log('body:', body)
+  if (body.name && body.phone === null) {
+    return response.status(400).json({ error: 'content missing' })
+  }
+  // let Isreplace = Person.find(person => person.name === body.name && person.phone === body.phone)
+  // if(Isreplace === null){
+  //     return response.status(400).json({error: 'content exits'})
+  // }
+  const person = new Person({
+    name: body.name,
+    phone: body.phone,
+    id: Math.floor(Math.random() * 1000)
+  })
+  person.save().then(savedPerson => {
+    return savedPerson.toJSON()
+  }).then(saveAddPerson => {
+    response.json(saveAddPerson)
+  })
+    .catch(error => next(error))
 
 })
 app.delete('/api/persons/:id', (request, response, next) => { //删除功能
-    Person.findByIdAndRemove(request.params.id)
-        .then(result => {
-            response.status(204).end()
-        })
-        .catch(error => next(error))
+  Person.findByIdAndRemove(request.params.id)
+    .then(() => {
+      response.status(204).end()
+    })
+    .catch(error => {
+      console.log(response.error.message)
+      next(error)
+    })
+
+
 })
 const errorHandle = (error, request, response, next) => { //将错误封装在中间件中
-    console.log(error.message)
-    if (error.name === 'CastError' && error.kind === 'ObjectId') {
-        return status(404).send({ error: 'id is missing' })
-    }
-    next(error)
+  console.log(error.message)
+  if (error.name === 'CastError' && error.kind === 'ObjectId') {
+    return status(404).send({ error: 'id is missing' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
+  next(error)
 }
 app.use(errorHandle)
 app.put('/api/persons/:id', (request, response, next) => { //实现name相同，phone不同的更新功能
-    const body = request.body
-    const person = {
-        name: body.name,
-        phone: body.phone
-    }
+  const body = request.body
+  const person = {
+    name: body.name,
+    phone: body.phone
+  }
 
-    Person.findByIdAndUpdate(request.params.id, person, { new: true })
-        .then(updatePerson => {
-            response.json(updatePerson)
-        })
-        .catch(error => next(error))
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then(updatePerson => {
+      response.json(updatePerson)
+    })
+    .catch(error => next(error))
 })
 // app.post('/api/persons', (request, response) => {
 //     const body = request.body;
@@ -183,5 +195,5 @@ app.put('/api/persons/:id', (request, response, next) => { //实现name相同，
 
 const PORT = 3001
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+  console.log(`Server running on port ${PORT}`)
 })

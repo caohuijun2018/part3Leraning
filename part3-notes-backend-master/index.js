@@ -5,6 +5,7 @@ require('dotenv').config()
 const Note = require('./models/note')
 
 const cors = require('cors')
+const { request, response } = require('express')
 
 app.use(cors())
 
@@ -17,7 +18,11 @@ app.get('/api/notes', (request, response) => {
     response.json(notes.map(note => note.toJSON()))
   })
 })
-
+app.get('/api/notes',(request,response) => {
+  Note.find({}).then(note => {
+    response.json(note)
+  })
+})
 app.post('/api/notes', (request, response, next) => {
   const body = request.body
 
