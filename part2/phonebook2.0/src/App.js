@@ -117,6 +117,14 @@ const App = () => {
 
 
       })
+      .catch(error => {
+        setErrorMessage(error.response.data.error)
+        window.setTimeout(() => {
+          setErrorMessage('')
+        },5000)
+        console.log("error:",error.response.data)
+      })
+      
 
     // axios
     //   .post('http://localhost:3001/persons',Object)
