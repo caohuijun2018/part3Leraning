@@ -6,7 +6,9 @@ const notesRouter = require('./controllers/notes')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
+const { request } = require('express')
 const url = `mongodb://localhost:27017/test`
+const usersRouter = require('./controllers/users')
 logger.info('connecting to', url)
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -23,7 +25,7 @@ app.use(express.json())
 app.use(middleware.requestLogger)
 
 app.use('/api/notes', notesRouter)
-
+app.use('/api/users',usersRouter)
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
