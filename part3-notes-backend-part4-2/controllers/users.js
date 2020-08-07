@@ -9,7 +9,7 @@ usersRouter.get('/', async (request, response) => {
 
 
     //const notes = await User.find({})
-    response.json(notes)
+    response.json(users)
   })
 usersRouter.post('/', async (request, response) => {
   const body = request.body
