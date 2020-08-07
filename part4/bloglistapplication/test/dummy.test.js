@@ -67,11 +67,11 @@ describe(' maxLikes', () => {
     {
        title: 'The beautiful girl is you ',
         author: 'lan',
-        likes: 8
+        likes: 9
     }]
     test(' which has the max likes', () => {
         const result = listHelper.maxLike(ListBlog)
-        // expect(resule).toBe({title: 'The beautiful girl is you ',author: 'lan',likes: 8})
-        expect(result).toBe( 'hello to world')
+        expect(result).toStrictEqual({title: 'The beautiful girl is you ',author: 'lan',likes: 9})
+       // expect(result).toBe( 'hello to world')
     })
 })
