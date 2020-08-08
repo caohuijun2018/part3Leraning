@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
-
+const https = require('https')
 usersRouter.get('/', async (request, response) => {
     const users = await User
     .find({}).populate('notes')

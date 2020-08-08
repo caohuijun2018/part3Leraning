@@ -57,7 +57,8 @@ notesRouter.post('/', async (request, response, next) => {
   const body = request.body
   //const user = await User.findById(body.userId)
   const token = getTokenFrom(request)
-
+  //const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI1ZjJlMmM4YmUyNDliNDJlMThiZjU1MzMiLCJpYXQiOjE1OTY4NjI1MDZ9.pCy-SpGnKD6omX-HYH-pzxsROYyg-ntOL8caWDtOg40'
+  console.log("token:",token)
   
 
   try{
@@ -66,16 +67,23 @@ notesRouter.post('/', async (request, response, next) => {
     return response.status(401).json(error)
   }
   const decodedToken = jwt.verify(token, process.env.SECRET)
-  if (!token || !decodedToken.id) {
+  console.log("decodedToken:",decodedToken)
+  console.log('deId:',decodedToken.id)
+   if (!token || !decodedToken.id) {
     return response.status(401).json({ error: 'token missing or invalid' })
   }
   const user = await User.findById(decodedToken.id)
+  if(user === null){
+    return response.status(404).json({error: 'user does not exist'})
+  }
+  console.log("user:",user)
   const note = new Note({
     content: body.content,
     important: body.important || false,
     date: new Date(),
     user: user._id
   })
+  console.log("note:",note)
   // try{const savedNote = await note.save()
   //   response.json(savedNote)
   // }catch(response){
