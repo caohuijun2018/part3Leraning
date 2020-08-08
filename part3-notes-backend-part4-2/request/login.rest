@@ -1,7 +1,8 @@
-POST  http://localhost:3001/api/login
+POST  http://localhost:3001/api/notes
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI1ZjJkNjc1ZDQ0NWE4MTI2NjU0ZDVmZmQiLCJpYXQiOjE1OTY4MTIzNDN9.WISmfb5y0tPICD7xpk7Q_ovN5HR4vkRpDXJLl05jaTE
 
 {
-    "username":"mluukkai",
-    "password":"salainen"
+    "content":"Single Page Apps use token authoer",
+    "important":"true"
 }

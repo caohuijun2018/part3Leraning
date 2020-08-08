@@ -76,18 +76,18 @@ test('a valid note can be added', async () => {
     // expect(response.body).toHaveLength(initialNotes.length + 1)
     expect(contents).toContain('async/await simplifies making async calls')
 })
-test('note without content is not added', async () => {
-    const newNote = {
-        impotant: true
-    }
-    await api
-        .post('/api/notes')
-        .send(newNote)
-        .expect(400)
-        const notesAtEnd = await helper.notesInDb()
-    //const response = await api.get('/api/notes')
-    expect(notesAtEnd).toHaveLength(helper.initialNotes.length)
-})
+// test('note without content is not added', async () => {
+//     const newNote = {
+//         impotant: true
+//     }
+//     await api
+//         .post('/api/notes')
+//         .send(newNote)
+//         .expect(400)
+//         const notesAtEnd = await helper.notesInDb()
+//     //const response = await api.get('/api/notes')
+//     expect(notesAtEnd).toHaveLength(helper.initialNotes.length)
+// })
 
 test('a specific note can be viewed',async() => {
     const notesAtStart = await helper.notesInDb()
