@@ -1,5 +1,5 @@
 const blogRouter = require('express').Router()
-const Blog = require('../mongo')
+const Blog = require('../models/blog')
 const { request } = require('express')
 const { response } = require('../app')
 const { repeat } = require('lodash')
@@ -52,7 +52,7 @@ blogRouter.get('/:id', async(request,response) => {
     response.status(404).end()
   }
 })
- blogRouter.put('/:id', async(request,response) => {
+ blogRouter.put('/:id', async(request,response) => {   //更新
    const body = request.body
    const blog = {
      title : body.title,
