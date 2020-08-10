@@ -5,7 +5,7 @@ const { request, response } = require('express')
 const { populate } = require('../models/user')
 
 userRounter.get('/', async(request,response)=> {
-    const users = await User.find({})
+    const users = await User.find({}).populate('blogs')
      
     response.json(users)
 })
@@ -23,8 +23,15 @@ userRounter.post('/', async (request,response) => {
         passwordHash,
     })
 
-    const savedUser = await user.save()
-    response.json(savedUser)
+
+    try{
+        const savedUser = await user.save()
+        response.json(savedUser)
+    }catch(error){
+        return response.status(400).json({erro: 'name is exits'})
+    }
+    
+    
 })
 
 module.exports = userRounter
