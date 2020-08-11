@@ -37,7 +37,7 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.post('/', async (request, response) => {
   const body = request.body
   // const user =await User.findById(body.userId)
-  console.log(user)
+  //console.log(user)
 
   const token = getTokenFrom(request)
   try {

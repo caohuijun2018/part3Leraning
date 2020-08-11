@@ -2,15 +2,20 @@ POST http://localhost:3003/api/login
 Content-Type: application/json
  
  {
-    "username": "xiaowang",
-    "password": "abc"
+    "username": "huijun",
+    "password": "hahaha"
 }
 
 
-# Post http://localhost:3003/api/login
-# Content-Type: application/json
+###
+POST  http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imh1aWp1biIsImlkIjoiNWYzMTVmNDNiN2JlYjk2ZTg4NDI5YTgwIiwiaWF0IjoxNTk3MTEzMjQ1fQ.fRvmZsZAlOu3TfdGvZBWcXAl-gI4L5baCynNiJtYkCQ
 
-# {
-#     "username": "xiaowang",
-#     "password": "abc"
-# }
+{
+    "title": "magic girl",
+    "author": "huijun",
+     "url": "http://3003",
+     "likes": "8",
+     "users": "5f2fd78087b53555dda4419c"
+}
