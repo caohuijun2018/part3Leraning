@@ -8,7 +8,7 @@ if ( process.argv.length<3 ) {
 const password = process.argv[2]
 
 const url =
-  `mongodb://localhost:27017/te`
+  `mongodb://localhost:27017/notes`
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 

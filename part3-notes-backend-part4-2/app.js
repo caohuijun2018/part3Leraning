@@ -7,7 +7,7 @@ const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
 const { request } = require('express')
-const url = `mongodb://localhost:27017/test`
+const url = `mongodb://localhost:27017/notes`
 const usersRouter = require('./controllers/users')
 const loginRounter = require('./controllers/login')
 logger.info('connecting to', url)
