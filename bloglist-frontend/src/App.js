@@ -13,6 +13,7 @@ const App = () => {
   const [newtitle, setTitle] = useState('')
   const [newauthor, setAuthor] = useState('')
   const [newurl, setUrl] = useState('')
+  const [name,setName] = useState('')
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
@@ -26,18 +27,21 @@ const App = () => {
       loginService.setToken(user.token)
     }
   }, [])
-  
+   console.log("name:",name)
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
       const user = await loginService.login({
         username, password
       })
+      setName(name.concat(username))
+      console.log('username:',username)
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
       )
       loginService.setToken(user.token)
       setUser(user)
+      
       setSuccessMessage(`${username} logged in`)
       setTimeout(() => {
         setSuccessMessage(null)
@@ -82,7 +86,7 @@ const App = () => {
     setUrl('')
     setAuthor('')
    })
-
+ 
 
 
     // setBlogs(blog)
@@ -153,7 +157,7 @@ const App = () => {
       <div>
         <h2>blogs</h2>
         <NOtificationSuccess message = {success}/>
-        <p>{`${username} is login in`}</p>
+        <p>{`${name} is login in`}</p>
 
 
         <form onSubmit={handleLogout}>

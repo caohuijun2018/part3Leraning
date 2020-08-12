@@ -9,6 +9,13 @@ const getAll = () => {
   const request = axios.get(baseUrl)
   return request.then(response => response.data)
 }
+const getName = async newObject => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.get('http://localhost:3003/api/blogs')
+}
+
 
 const create = async newObject => {
   const config = {
@@ -20,4 +27,4 @@ console.log("config:",config)
 }
 
 
-export default { getAll,create ,setToken}
+export default { getAll,create ,setToken,getName}
