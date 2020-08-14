@@ -21,10 +21,21 @@ const create = async newObject => {
   const config = {
     headers: { Authorization: token },
   }
+
+
 console.log("config:",config)
   const response = await axios.post(baseUrl, newObject, config)
   return response.data
 }
+const getBlog = (newObject) => {
+// newObject.map((blog) => {
+//   const request = axios.get(`http://localhost:3003/api/blogs/:${blog.id}`)
+//   return request.then(response => response.data)
+// })
+  console.log("newobject:",newObject)
+  const request = axios.get(`http://localhost:3003/api/blogs/${newObject}`)
+  
+  return request.then(response =>response.data)
+ }
 
-
-export default { getAll,create ,setToken,getName}
+export default { getAll,create ,setToken,getName, getBlog}
