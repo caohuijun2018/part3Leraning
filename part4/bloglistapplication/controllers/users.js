@@ -33,5 +33,13 @@ userRounter.post('/', async (request,response) => {
     
     
 })
+userRounter.get('/:id', async (request, response) => {
+    const user = await User.findById(request.params.id)
+    if (user) {
+      response.json(blog)
+    } else {
+      response.status(404).end()
+    }
+  })
 
 module.exports = userRounter

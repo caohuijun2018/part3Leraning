@@ -83,11 +83,11 @@ blogRouter.post('/', async (request, response) => {
   }
 })
 
-blogRouter.get('/:id' ,async (request,response) => {
-  const body = request.body
-  console.log('username:',body.username)
-  return body.username
-})
+// blogRouter.get('/:id' ,async (request,response) => {
+//   const body = request.body
+//   console.log('username:',body.username)
+//   return body.username
+// })
 
 
 blogRouter.delete('/:id', async (request, response) => {
