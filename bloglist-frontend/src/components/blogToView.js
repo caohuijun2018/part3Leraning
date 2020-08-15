@@ -8,18 +8,21 @@ const BlogToView = (props) => {
       setBlogView(blog);
       console.log("blog:", blog);
     });
-  },[]);
+  }, []);
   //console.log("blogView:",blogView)
 
-  if(blogView === null) {
-    return null
+  if (blogView === null) {
+    return null;
   }
   return (
     <div>
-      
       <p> title : {blogView.title}</p>
       <p> auhort: {blogView.author}</p>
       <p> url: {blogView.url}</p>
+      <p> likes: {blogView.likes}</p>
+      <div>
+        <button>likes</button>
+      </div>
     </div>
   );
 };

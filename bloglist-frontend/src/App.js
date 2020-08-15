@@ -137,10 +137,7 @@ const App = () => {
       />
     </Togglable>
   );
-  const Getbog = (event) => {
-    loginService.getbog().then((blog) => setBlogView(blog));
-    console.log("blog:", blogView);
-  };
+  
 
   const BlogView = (props) => (
     <ReTogglable buttonLabel="view">
