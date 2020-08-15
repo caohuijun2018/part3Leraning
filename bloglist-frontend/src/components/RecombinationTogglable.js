@@ -25,13 +25,7 @@ const Togglable = (props) => {
     );
   }
 
-//   return (
-//     <div>
-//       <div style={hideWhenVisible}>
-//         <button onClick={toggleVisibility}>{props.buttonLabel}</button>
-//       </div>
-//     </div>
-//   );
+
 };
 
 Togglable.prototype = {

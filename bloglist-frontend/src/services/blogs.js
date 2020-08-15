@@ -10,10 +10,9 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 const getName = async newObject => {
-  const config = {
-    headers: { Authorization: token },
-  }
+  
   const response = await axios.get('http://localhost:3003/api/blogs')
+  return response.data
 }
 
 

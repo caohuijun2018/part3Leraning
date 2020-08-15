@@ -19,7 +19,6 @@ const App = () => {
   const [newurl, setUrl] = useState("");
   const [name, setName] = useState("");
   const [newlikes, setLikes] = useState("");
-  //const [blogView, setBlogView] = useState("");
 
   useEffect(() => {
     //初始获得所有的blogs
@@ -31,7 +30,7 @@ const App = () => {
     if (loggedLoginJSON) {
       const user = JSON.parse(loggedLoginJSON);
       setUser(user);
-      loginService.setToken(user.token);
+      //loginService.setToken(user.token);
     }
   }, []);
   console.log("name:", name);
@@ -47,7 +46,7 @@ const App = () => {
       setName(name.concat(username));
       console.log("username:", username);
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-      loginService.setToken(user.token);
+      //loginService.setToken(user.token);
       setUser(user);
 
       setSuccessMessage(`${username} logged in`);
@@ -67,7 +66,7 @@ const App = () => {
     //登出
 
     window.localStorage.removeItem("loggedBlogappUser", JSON.stringify(user));
-    loginService.deleteToken(user.token);
+   //s loginService.deleteToken(user.token);
   };
 
   const addBlogs = (event) => {
@@ -93,15 +92,6 @@ const App = () => {
       setAuthor("");
       setLikes("");
     });
-
-    // setBlogs(blog)
-    // setSuccessMessage(` a new blog${newtitle}! by ${newauthor} added`)
-    // setTimeout( () => {
-    //   setSuccessMessage(null)
-    // },5000)
-    // setTitle('')
-    // setUrl('')
-    // setAuthor('')
   };
   const NotificationError = ({ message }) => {
     //错误信息提示
@@ -150,20 +140,9 @@ const App = () => {
   const BlogView = (props) => (
     <ReTogglable buttonLabel="view">
       <BlogToView id={props.id} />
-      {/* {console.log("blog:", blog )} */}
     </ReTogglable>
   );
-  const addLikes = (id) => {
-    console.log("blogs:", blogs);
-    console.log("id:", id);
-    const blog = blogs.find((n) => n.id === id);
-    const changeBlog = { ...blog, likes: blog.likes + 1 };
-    console.log("changeBlog:", changeBlog);
 
-    blogService.putLikes(id, changeBlog).then((returnBlog) => {
-      setBlogs(blogs.map((blog) => (blog.id !== id ? blog : returnBlog)));
-    });
-  };
   if (user === null) {
     return (
       <div>
@@ -206,13 +185,11 @@ const App = () => {
         </form>
         <div>
           {blogForm()}
-          {/* { blogView()} */}
           {blogs.map((blog) => {
             return (
               <div key={blog.id}>
                 <Blog blog={blog} />
                 <BlogView id={blog.id} />
-                
               </div>
             );
           })}
