@@ -18,7 +18,9 @@ const App = () => {
   const [newauthor, setAuthor] = useState("");
   const [newurl, setUrl] = useState("");
   const [name, setName] = useState("");
-  const [blogView, setBlogView] = useState("");
+  const [newlikes, setLikes] = useState("");
+  //const [blogView, setBlogView] = useState("");
+
   useEffect(() => {
     //初始获得所有的blogs
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -76,6 +78,7 @@ const App = () => {
       author: newauthor,
       url: newurl,
       id: Math.floor(Math.random() * 100000000000),
+      likes: newlikes,
     };
     console.log(blog);
     blogService.setToken(user.token);
@@ -88,6 +91,7 @@ const App = () => {
       setTitle("");
       setUrl("");
       setAuthor("");
+      setLikes("");
     });
 
     // setBlogs(blog)
@@ -123,6 +127,9 @@ const App = () => {
   const handleUrlChange = (event) => {
     setUrl(event.target.value);
   };
+  const handleLikesChange = (event) => {
+    setLikes(event.target.value);
+  };
   const blogForm = () => (
     // 控制登陆表单是否显示
     <Togglable buttonLabel="new blog">
@@ -131,13 +138,14 @@ const App = () => {
         valueTitle={newtitle}
         valueAuthor={newauthor}
         valueUrl={newurl}
+        valueLikes={newlikes}
         handleChangeTitle={handleTitlechange}
         handleChangeAuthor={handleAuthotChange}
         handleChangeUrl={handleUrlChange}
+        handleChangeLikes={handleLikesChange}
       />
     </Togglable>
   );
-  
 
   const BlogView = (props) => (
     <ReTogglable buttonLabel="view">
@@ -145,7 +153,17 @@ const App = () => {
       {/* {console.log("blog:", blog )} */}
     </ReTogglable>
   );
+  const addLikes = (id) => {
+    console.log("blogs:", blogs);
+    console.log("id:", id);
+    const blog = blogs.find((n) => n.id === id);
+    const changeBlog = { ...blog, likes: blog.likes + 1 };
+    console.log("changeBlog:", changeBlog);
 
+    blogService.putLikes(id, changeBlog).then((returnBlog) => {
+      setBlogs(blogs.map((blog) => (blog.id !== id ? blog : returnBlog)));
+    });
+  };
   if (user === null) {
     return (
       <div>
@@ -191,9 +209,10 @@ const App = () => {
           {/* { blogView()} */}
           {blogs.map((blog) => {
             return (
-              <div key = {blog.id}>
-                <Blog  blog={blog} />
-                <BlogView  id={blog.id} />
+              <div key={blog.id}>
+                <Blog blog={blog} />
+                <BlogView id={blog.id} />
+                
               </div>
             );
           })}

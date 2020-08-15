@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 
 
-const BlogForm = ({ onsubmit, valueTitle, valueAuthor, valueUrl, handleChangeTitle, handleChangeAuthor, handleChangeUrl }) => {
+const BlogForm = ({ onsubmit, valueTitle, valueAuthor, valueUrl, valueLikes,handleChangeTitle, handleChangeAuthor, handleChangeUrl ,handleChangeLikes}) => {
 
     return (
 
@@ -33,6 +33,14 @@ const BlogForm = ({ onsubmit, valueTitle, valueAuthor, valueUrl, handleChangeTit
                         type="text"
                         value={valueUrl}
                         onChange={handleChangeUrl}
+                    ></input>
+                </div>
+                <div>
+                    likes:
+            <input
+                        type="text"
+                        value={valueLikes}
+                        onChange={handleChangeLikes}
                     ></input>
                 </div>
                 <button type="onsubmit">create</button>

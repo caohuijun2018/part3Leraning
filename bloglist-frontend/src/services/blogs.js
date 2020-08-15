@@ -37,8 +37,9 @@ const getBlog = (newObject) => {
   
   return request.then(response =>response.data)
  }
-const putLikes = (id,newObject) => {
-  const request = axios. put(`http://localhost:3003/api/blogs/${id}`,newObject)
+
+const updata = (id,newObject) => {
+  const request = axios.put(`http://localhost:3003/api/blogs/${id}`,newObject)
   return request.then(response => response.data)
 }
-export default { getAll,create ,setToken,getName, getBlog,putLikes}
+export default { getAll,create ,setToken,getName, getBlog,updata}
